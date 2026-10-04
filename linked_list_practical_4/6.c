@@ -1,38 +1,44 @@
-/*Write a program that searches for the first occurrence of a particular
-element from a doubly linked list.
+/*Program 6.
+Write a program that accepts a doubly linked list from the user.
+Take a number from the user and print the data of the length of that
+number. Length of kanha=5
 Submit with a proper diagram.
-Input linked list: |10|->|20|->]30|->|40|->|50|->|30|->|70
-Input: Enter element: 30
-Output: 3*/
+Input: linked list: Shashi |-> | Ashish|-> |Kanha |-> | Rahul |-> | Badhe |
+Input: Enter Length 5
+Output:
+Kanha
+Rahul
+Badhe*/
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 struct node {
-    int no;
+    char str[20];
     struct node *prev;
     struct node *next;
 };
 
 struct node *head = NULL;
 
-struct node* createNode(int no) {
+struct node* createNode(char str[]) {
     struct node *newNode;
 
     newNode = (struct node*)malloc(sizeof(struct node));
 
-    newNode->no = no;
+    strcpy(newNode->str, str);
     newNode->prev = NULL;
     newNode->next = NULL;
 
     return newNode;
 }
 
-void addNode(int no) {
+void addNode(char str[]) {
     struct node *newNode;
     struct node *temp;
 
-    newNode = createNode(no);
+    newNode = createNode(str);
 
     if (head == NULL) {
         head = newNode;
@@ -49,43 +55,38 @@ void addNode(int no) {
     }
 }
 
-void searchFirst(int element) {
+void printLength(int length) {
     struct node *temp;
-    int position = 1;
 
     temp = head;
 
     while (temp != NULL) {
-        if (temp->no == element) {
-            printf("%d", position);
-            return;
+        if (strlen(temp->str) == length) {
+            printf("%s\n", temp->str);
         }
 
-        position++;
         temp = temp->next;
     }
-
-    printf("Element not found");
 }
 
 int main() {
-    int n, i, no, element;
+    int n, i, length;
+    char str[20];
 
     printf("Enter number of nodes: ");
     scanf("%d", &n);
 
     for (i = 0; i < n; i++) {
-        printf("Enter element: ");
-        scanf("%d", &no);
-
-        addNode(no);
+        printf("Enter string: ");
+        scanf("%s", str);
+        addNode(str);
     }
 
-    printf("Enter element: ");
-    scanf("%d", &element);
+    printf("Enter Length: ");
+    scanf("%d", &length);
 
-    printf("Output: ");
-    searchFirst(element);
+    printf("Output:\n");
+    printLength(length);
 
     return 0;
 }
