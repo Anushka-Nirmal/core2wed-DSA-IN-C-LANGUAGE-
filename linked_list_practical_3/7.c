@@ -1,15 +1,13 @@
-/*Write a program that accepts two singly linear linked lists from the user and also accept range and concat elements of the source singly linear linked list from that range after a singly linear destination linked list.
+/*Write a program that copies the last N contents of the source singly linear linked list to the destination singly linear linked list.
 
 Input:
 
-Source:      |30|->|30|->|70|->|80|->|90|->|100|
-Destination: |30|->|40|
-Starting range: 2
-Ending range: 5
+Source: |30|->|30|->|70|->|80|->|90|->|100|
+N = 4
 
 Output:
 
-|30|->|40|->|30|->|70|->|80|->|90|*/
+|70|->|80|->|90|->|100|*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,17 +42,28 @@ void addNode(struct node **head, int no) {
     }
 }
 
-void concatRange(struct node **destination, struct node *source,
-                 int start, int end) {
-    struct node *temp;
-    int position = 1;
+int countNodes(struct node *head) {
+    int count = 0;
+
+    while (head != NULL) {
+        count++;
+        head = head->next;
+    }
+
+    return count;
+}
+
+void copyLastN(struct node *source, struct node **destination, int n) {
+    int total = countNodes(source);
+    int skip = total - n;
+    int count = 0;
 
     while (source != NULL) {
-        if (position >= start && position <= end)
+        if (count >= skip)
             addNode(destination, source->no);
 
-        position++;
         source = source->next;
+        count++;
     }
 }
 
@@ -73,8 +82,7 @@ int main() {
     struct node *source = NULL;
     struct node *destination = NULL;
 
-    int n, i, no;
-    int start, end;
+    int n, i, no, number;
 
     printf("Enter source nodes: ");
     scanf("%d", &n);
@@ -84,21 +92,10 @@ int main() {
         addNode(&source, no);
     }
 
-    printf("Enter destination nodes: ");
-    scanf("%d", &n);
+    printf("Enter number: ");
+    scanf("%d", &number);
 
-    for (i = 0; i < n; i++) {
-        scanf("%d", &no);
-        addNode(&destination, no);
-    }
-
-    printf("Enter starting range: ");
-    scanf("%d", &start);
-
-    printf("Enter ending range: ");
-    scanf("%d", &end);
-
-    concatRange(&destination, source, start, end);
+    copyLastN(source, &destination, number);
 
     printf("Output: ");
     printList(destination);

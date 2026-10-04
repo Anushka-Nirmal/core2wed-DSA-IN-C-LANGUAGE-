@@ -1,15 +1,12 @@
-/*Write a program that accepts two singly linear linked lists from the user and also accept range and concat elements of the source singly linear linked list from that range after a singly linear destination linked list.
+/*Write a program that copies the contents of the source singly linear linked list whose data is the prime number to the destination singly linear linked list.
 
 Input:
 
-Source:      |30|->|30|->|70|->|80|->|90|->|100|
-Destination: |30|->|40|
-Starting range: 2
-Ending range: 5
+Source: |30|->|29|->|73|->|80|->|70|->|110|->|89|
 
 Output:
 
-|30|->|40|->|30|->|70|->|80|->|90|*/
+|29|->|73|->|89|*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,16 +41,25 @@ void addNode(struct node **head, int no) {
     }
 }
 
-void concatRange(struct node **destination, struct node *source,
-                 int start, int end) {
-    struct node *temp;
-    int position = 1;
+int isPrime(int no) {
+    int i;
 
+    if (no < 2)
+        return 0;
+
+    for (i = 2; i <= no / 2; i++) {
+        if (no % i == 0)
+            return 0;
+    }
+
+    return 1;
+}
+
+void copyPrime(struct node *source, struct node **destination) {
     while (source != NULL) {
-        if (position >= start && position <= end)
+        if (isPrime(source->no))
             addNode(destination, source->no);
 
-        position++;
         source = source->next;
     }
 }
@@ -74,7 +80,6 @@ int main() {
     struct node *destination = NULL;
 
     int n, i, no;
-    int start, end;
 
     printf("Enter source nodes: ");
     scanf("%d", &n);
@@ -84,21 +89,7 @@ int main() {
         addNode(&source, no);
     }
 
-    printf("Enter destination nodes: ");
-    scanf("%d", &n);
-
-    for (i = 0; i < n; i++) {
-        scanf("%d", &no);
-        addNode(&destination, no);
-    }
-
-    printf("Enter starting range: ");
-    scanf("%d", &start);
-
-    printf("Enter ending range: ");
-    scanf("%d", &end);
-
-    concatRange(&destination, source, start, end);
+    copyPrime(source, &destination);
 
     printf("Output: ");
     printList(destination);

@@ -1,15 +1,14 @@
-/*Write a program that accepts two singly linear linked lists from the user and also accept range and concat elements of the source singly linear linked list from that range after a singly linear destination linked list.
+/*Write a program that copies the contents of the source singly linear linked list which lies between the particular range accepted by the user.
 
 Input:
 
-Source:      |30|->|30|->|70|->|80|->|90|->|100|
-Destination: |30|->|40|
+Source: |30|->|30|->|70|->|80|->|90|->|100|
 Starting range: 2
 Ending range: 5
 
 Output:
 
-|30|->|40|->|30|->|70|->|80|->|90|*/
+|30|->|70|->|80|->|90|*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -44,9 +43,8 @@ void addNode(struct node **head, int no) {
     }
 }
 
-void concatRange(struct node **destination, struct node *source,
-                 int start, int end) {
-    struct node *temp;
+void copyRange(struct node *source, struct node **destination,
+               int start, int end) {
     int position = 1;
 
     while (source != NULL) {
@@ -84,21 +82,13 @@ int main() {
         addNode(&source, no);
     }
 
-    printf("Enter destination nodes: ");
-    scanf("%d", &n);
-
-    for (i = 0; i < n; i++) {
-        scanf("%d", &no);
-        addNode(&destination, no);
-    }
-
     printf("Enter starting range: ");
     scanf("%d", &start);
 
     printf("Enter ending range: ");
     scanf("%d", &end);
 
-    concatRange(&destination, source, start, end);
+    copyRange(source, &destination, start, end);
 
     printf("Output: ");
     printList(destination);
